@@ -26,13 +26,16 @@ void destroyStack(Stack* s)
 	if (s->head == NULL)//if the stack is empty
 		return;
 
-	Stack* temp = s;
+	Stack* temp = (Stack*)malloc(sizeof(Stack));
+	if (temp == NULL) { printf("alloction fails\n"); exit(1); }
+	temp->head = s->head;
 	while (s->head->next != NULL) {
 		s->head = s->head->next;
 		free(temp->head);
-		temp = s;
+		temp->head = s->head;
 	}
 	free(temp->head);
+	free(temp);
 }
 
 void push(Stack* s, char data)
@@ -99,7 +102,7 @@ void flipBetweenHashes(const char* sentence)
 			ptr++;
 		}
 	}
-	//destroyStack(temp);
+	destroyStack(temp);
 	free(temp);
 }
 
