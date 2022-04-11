@@ -1,10 +1,11 @@
 #include "Queue.h"
+#include <stdio.h>
 
 /***************** Queue ADT Implementation *****************/
 
 void initQueue(Queue* q)
 {
-	// add your code here
+	
 }
 
 void destroyQueue(Queue* q)
