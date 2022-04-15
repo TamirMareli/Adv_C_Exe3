@@ -11,6 +11,8 @@ void cutAndReplace(Queue* q);
 void sortKidsFirst(Queue* q);
 void cutAndReplaceOdd(Queue* q, int count);
 void cutAndReplaceEven(Queue* q, int count);
+void printQueue(Queue* q);
+void chance(Queue*q);
 /***************** Queue ADT Implementation *****************/
 
 void initQueue(Queue* q)
@@ -48,8 +50,9 @@ void enqueue(Queue* q, unsigned int data)
 		return;
 	}
 	//the Queue not empty
-	temp->next = q->tail;
+	q->tail->next = temp;
 	q->tail = temp;
+	
 }
 
 unsigned int dequeue(Queue* q)
@@ -60,7 +63,7 @@ unsigned int dequeue(Queue* q)
 	}
 	unsigned int temp= q->head->data;
 	intNode* ptr = q->head;
-	if (q->head->next) {//if have only one object
+	if (q->head->next==NULL) {//if have only one object
 		q->head = NULL;
 		q->tail = NULL;
 		free(ptr);
@@ -90,10 +93,11 @@ void rotateQueue(Queue* q)
 		return;
 
 	Queue temp;
-	while (q->head->next != NULL) {
+	initQueue(&temp);
+	while (q->head->next!=NULL) {
 		enqueue(&temp, dequeue(q));
 	}
-	while (temp.head != NULL) {
+	while (temp.head!=NULL) {
 		enqueue(q, dequeue(&temp));
 	}
 }
@@ -106,6 +110,7 @@ void cutAndReplace(Queue* q)
 		return;
 
 	Queue temp1;
+	initQueue(&temp1);
 	int count = 0;
 	while (!isEmptyQueue(q)) {
 		enqueue(&temp1, dequeue(q));
@@ -125,7 +130,29 @@ void cutAndReplace(Queue* q)
 
 void sortKidsFirst(Queue* q)
 {
-	// add your code here
+	if (q == NULL)//if NULL
+		return;
+	if (q->head == NULL)//if empty 
+		return;
+	if (q->head->next == NULL) //have one object
+		return;
+	// more one object
+	intNode* p = q->head;
+	intNode* pN = q->head->next;
+	int temp = 0;
+	while (p != NULL) {
+		while (pN!=NULL) {
+			if (p->data > pN->data) {
+				temp = p->data;
+				p->data = pN->data;
+				pN->data = temp;
+			}
+			pN = pN->next;
+		}
+		p = p->next;
+		pN = p;
+	}
+	
 }
 
 void cutAndReplaceOdd(Queue* q,int count)
@@ -133,6 +160,7 @@ void cutAndReplaceOdd(Queue* q,int count)
 	int sum = 0;
 	int data = 0;
 	Queue temp4;
+	initQueue(&temp4);
 	for (int i = 0; i < count; i++) {
 		data = dequeue(q);
 		sum += data;
@@ -150,17 +178,19 @@ void cutAndReplaceOdd(Queue* q,int count)
 void cutAndReplaceEven(Queue* q, int count)
 {
 	Queue temp2;
+	initQueue(&temp2);
 	Queue* temp3 = (Queue*)malloc(sizeof(Queue));
 	if (temp3 == NULL) { printf("allocation faild\n"); exit(1); }
+	initQueue(temp3);
 	for (int i = 0; i < count / 2; i++) {
 		enqueue(&temp2, dequeue(q));
 	}
 	for (int i = 0; i < count / 2; i++) {
 		enqueue(temp3, dequeue(q));
 	}
-	for (int i = 0; i < count / 2; i++) {
-		cutAndReplace(temp3);
-	}
+
+		chance(temp3);
+
 	for (int i = 0; i < count / 2; i++) {
 		enqueue(q, dequeue(temp3));
 	}
@@ -170,3 +200,36 @@ void cutAndReplaceEven(Queue* q, int count)
 	free(temp3);
 
 }
+
+void printQueue(Queue* q) {
+	int data;
+	Queue temp;
+	initQueue(&temp);
+	while (!isEmptyQueue(q)) {
+		data = q->head->data;
+		printf("%d\t", data);
+		enqueue(&temp, dequeue(q));
+	}
+
+	while (!isEmptyQueue(&temp))
+	{
+		enqueue(q, dequeue(&temp));
+	}
+}
+void chance(Queue* q) {
+		Queue temp1, temp2;
+		initQueue(&temp1);
+		initQueue(&temp2);
+	
+		while (!isEmptyQueue(q))
+		{
+			while (!isEmptyQueue(&temp1))
+				enqueue(&temp2, dequeue(&temp1));
+			enqueue(&temp1, dequeue(q));
+			while (!isEmptyQueue(&temp2))
+				enqueue(&temp1, dequeue(&temp2));
+		}
+	
+		while (!isEmptyQueue(&temp1))
+			enqueue(q, dequeue(&temp1));
+	}

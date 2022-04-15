@@ -2,20 +2,11 @@
 #include "Stack.h"
 #include "Queue.h"
 
-void initStack(Stack* s);
-void destroyStack(Stack* s);
-void push(Stack* s, char data);
-char pop(Stack* s);
-int isEmptyStack(const Stack* s);
-void flipBetweenHashes(const char* sentence);
-int isPalindrome(Stack* s);
-void rotateStack(Stack* s, int n);
-int isPalindromeEven(Stack* s, int count);
-int isPalindromeOdd(Stack* s, int count);
-void printStack(Stack* s);
+
 
 void main()
 {
+	printf("Check the Stack fonctio:\n");
 	Stack s;
 	printf("Check the initStack fonctio:\n");
 	initStack(&s);
@@ -32,7 +23,7 @@ void main()
 	printf("Check the flipBetweenHashes fonctio:\n");
 	char sentence[] = "Remem#reb#thi#carp s#tice\0";
 	flipBetweenHashes(sentence);
-	printf("\nCheck the isPalindrome fonctio:\n");
+	printf("\nCheck the isPalindrome fonctio:\t");
 	printf("%d\n", isPalindrome(&s));
 	printStack(&s);
 	printf("Check the pop fonctio:\n");
@@ -41,7 +32,38 @@ void main()
 	printf("Check the rotateStack fonctio:\n");
 	rotateStack(&s, 3);
 	printStack(&s);
-
 	printf("\nCheck the destroyStack fonctio:\n");
 	destroyStack(&s);
+	
+	///Queue:
+	printf("\nCheck the Queue fonctio:\n");
+	printf("\nCheck the initQueue fonctio:\n");
+	Queue q;
+	initQueue(&q);
+	printf("\nCheck the enqueue fonctio:\n");
+		enqueue(&q, 6);
+		enqueue(&q, 1);
+		enqueue(&q, 5);
+		enqueue(&q, 2);
+		enqueue(&q, 3);
+		enqueue(&q, 1);
+		enqueue(&q, 9);
+		printQueue(&q);
+		printf("\nCheck the dequeue fonctio:\n");
+		dequeue(&q);
+		printQueue(&q);
+		printf("\nCheck the isEmptyQueue fonctio:\n");
+		printf("%d", isEmptyQueue(&q));
+		printf("\nCheck the rotateQueue fonctio:\n");
+		rotateQueue(&q);
+		printQueue(&q);
+		printf("\nCheck the cutAndReplace fonctio:\n");
+		cutAndReplace(&q);
+		printQueue(&q);
+		printf("\nCheck the sortKidsFirst fonctio:\n");
+		sortKidsFirst(&q);
+		printQueue(&q);
+		printf("\nCheck the destroyQueue fonctio:\n");
+		destroyQueue(&q);
+
 }
